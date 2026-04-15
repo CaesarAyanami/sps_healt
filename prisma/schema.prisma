@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  nombre       String
+  rol          String   // "admin", "digitizer", "viewer"
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  pacientes    Patient[]
+  logs         AuditLog[]
+}
+
+model Patient {
+  id             String   @id @default(cuid())
+  caso           String   @unique
+  primerNombre   String
+  primerApellido String
+  segundoNombre  String?
+  segundoApellido String?
+  dni            String     // Frontend label -> CI
+  sexo           String?
+  edad           Int?
+  fechaNacimiento DateTime?
+  telefono1      String?
+  telefonoAlternativo String?
+  direccion      String?
+  fechaOperacion DateTime @default(now())
+  descripcion    String?
+  creadoPorId    String
+  creadoPor      User     @relation(fields: [creadoPorId], references: [id])
+  documentos     Document[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Document {
+  id             String   @id @default(cuid())
+  patientId      String
+  patient        Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  nombreOriginal String
+  nombreSistema  String   // Ejemplo: "1_consulta.pdf" o "[caso]_unico.pdf"
+  ruta           String   // Ruta relativa como "uploads/c021_Pedro_Perez_12345678/1_consulta.pdf"
+  orden          Int      // Para PDF separados (1, 2, 3...) o 0 si es único
+  createdAt      DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accion    String   // "crear_paciente", "eliminar_usuario", etc.
+  detalles  String   // JSON o texto
+  fecha     DateTime @default(now())
+}
+
+model RecoveryToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
