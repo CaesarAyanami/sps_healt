@@ -51,7 +51,7 @@ export default function LoginPage() {
       >
         <div className="mb-8 flex flex-col items-center">
           <div className="flex items-center justify-center mb-4">
-            <img src="/SPS_Logo_2025.svg" alt="SPS Health Logo" class="h-8 w-auto" />
+            <img src="/sps_logo.svg" alt="SPS Health Logo" class="h-8 w-auto" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">SPS Health</h1>
           <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">Portal de Historial Médico Digital</p>
