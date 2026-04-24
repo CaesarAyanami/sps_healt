@@ -138,11 +138,11 @@ export default function ManagePatientsPage() {
         <div className="space-y-6 flex flex-col items-center flex-1">
             <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-800 flex items-center">
-                        <UserPlus className="mr-2 text-blue-600" />
+                    <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 flex items-center">
+                        <UserPlus className="mr-2 text-blue-600 dark:text-blue-400" />
                         Gestión de Pacientes
                     </h2>
-                    <p className="text-slate-500 mt-1">Sube nuevos historiales usando PDF</p>
+                    <p className="text-slate-500 dark:text-slate-400 mt-1">Sube nuevos historiales usando PDF</p>
                 </div>
 
                 <Link
@@ -154,8 +154,8 @@ export default function ManagePatientsPage() {
                 </Link>
             </div>
 
-            <div className="w-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div className="p-4 border-b border-slate-100 bg-slate-50 relative flex gap-4">
+            <div className="w-full bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors">
+                <div className="p-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 relative flex gap-4">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                         <input
@@ -163,7 +163,7 @@ export default function ManagePatientsPage() {
                             placeholder="Buscar paciente por caso, nombre, CI, año..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 outline-none"
                         />
                     </div>
                 </div>
@@ -176,7 +176,7 @@ export default function ManagePatientsPage() {
                     ) : (
                         <>
                             <table className="w-full text-left min-w-[700px]">
-                                <thead className="bg-slate-50 text-slate-500 text-sm font-semibold uppercase">
+                                <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-sm font-semibold uppercase">
                                     <tr>
                                         <th className="px-6 py-4">Caso #</th>
                                         <th className="px-6 py-4">Paciente</th>
@@ -186,15 +186,15 @@ export default function ManagePatientsPage() {
                                         <th className="px-6 py-4 text-right">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-100">
+                                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                                     {paginatedPatients.length > 0 ? paginatedPatients.map((p) => (
-                                        <tr key={p.id} className="hover:bg-slate-50">
-                                            <td className="px-6 py-4 font-bold text-slate-700">{p.caso}</td>
-                                            <td className="px-6 py-4 text-slate-900 font-medium">{p.primerNombre} {p.primerApellido}</td>
-                                            <td className="px-6 py-4 text-slate-600">{p.dni}</td>
-                                            <td className="px-6 py-4 text-slate-500 font-medium">{p.fechaOperacion ? new Date(p.fechaOperacion).toLocaleDateString('es-ES') : 'N/A'}</td>
+                                        <tr key={p.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                            <td className="px-6 py-4 font-bold text-slate-700 dark:text-slate-300">{p.caso}</td>
+                                            <td className="px-6 py-4 text-slate-900 dark:text-slate-100 font-medium">{p.primerNombre} {p.primerApellido}</td>
+                                            <td className="px-6 py-4 text-slate-600 dark:text-slate-400">{p.dni}</td>
+                                            <td className="px-6 py-4 text-slate-500 dark:text-slate-400 font-medium">{p.fechaOperacion ? new Date(p.fechaOperacion).toLocaleDateString('es-ES') : 'N/A'}</td>
                                             <td className="px-6 py-4 text-slate-500">
-                                                <span className="bg-slate-100 px-3 py-1 rounded-full text-xs font-semibold">{p._count.documentos} archivos</span>
+                                                <span className="bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full text-xs font-semibold dark:text-slate-300">{p._count.documentos} archivos</span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 {userRole === 'admin' && (
@@ -233,19 +233,19 @@ export default function ManagePatientsPage() {
                                         </tr>
                                     )) : (
                                         <tr>
-                                            <td colSpan="5" className="px-6 py-8 text-center text-slate-500">No se encontraron pacientes</td>
+                                            <td colSpan="5" className="px-6 py-8 text-center text-slate-500 dark:text-slate-400">No se encontraron pacientes</td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
                             {totalPages > 1 && (
-                                <div className="flex items-center justify-between px-6 py-3 border-t border-slate-100 bg-white">
-                                    <span className="text-sm text-slate-500">
+                                <div className="flex items-center justify-between px-6 py-3 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">
                                         Mostrando {currentPage * itemsPerPage + 1} a {Math.min((currentPage + 1) * itemsPerPage, filteredPatients.length)} de {filteredPatients.length} pacientes
                                     </span>
                                     <div className="flex space-x-2">
-                                        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))} disabled={currentPage === 0} className="px-3 py-1 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
-                                        <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages - 1))} disabled={currentPage === totalPages - 1} className="px-3 py-1 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
+                                        <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))} disabled={currentPage === 0} className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                                        <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages - 1))} disabled={currentPage === totalPages - 1} className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">Siguiente</button>
                                     </div>
                                 </div>
                             )}
@@ -344,16 +344,16 @@ export default function ManagePatientsPage() {
             <AnimatePresence>
                 {isDeleteModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-slate-900/60 backdrop-blur-sm shadow-xl overflow-y-auto">
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 text-center self-center">
-                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-100 mb-4">
-                                <Trash2 className="h-7 w-7 text-red-600" />
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-6 text-center self-center border border-transparent dark:border-slate-800">
+                            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
+                                <Trash2 className="h-7 w-7 text-red-600 dark:text-red-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-slate-800 mb-2">¿Eliminar Paciente y PDFs?</h3>
-                            <p className="text-slate-500 mb-6 text-sm">
-                                Se borrarán los datos y los archivos físicos asociados al caso <span className="font-semibold text-slate-700">{currentPatient?.caso}</span> permanentemente.
+                            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">¿Eliminar Paciente y PDFs?</h3>
+                            <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm">
+                                Se borrarán los datos y los archivos físicos asociados al caso <span className="font-semibold text-slate-700 dark:text-slate-300">{currentPatient?.caso}</span> permanentemente.
                             </p>
                             <div className="flex gap-3">
-                                <button onClick={() => setIsDeleteModalOpen(false)} className="flex-1 py-2 rounded-lg font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 transition">Cancelar</button>
+                                <button onClick={() => setIsDeleteModalOpen(false)} className="flex-1 py-2 rounded-lg font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">Cancelar</button>
                                 <button onClick={handleDeleteConfirm} disabled={saving} className="flex-1 py-2 rounded-lg font-medium text-white bg-red-600 hover:bg-red-700 transition flex items-center justify-center">
                                     {saving && <Loader2 size={16} className="animate-spin mr-2" />}
                                     Eliminar Todo
