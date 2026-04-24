@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -127,7 +128,7 @@ export default function ProtectedLayout({ children }) {
       `}>
         <div className="h-16 flex items-center justify-between px-6 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <img src="/sps_logo.svg" alt="SPS Health Logo" className="h-8 w-auto" />
+            <Image src="/SPS_Logo_2025.svg" alt="SPS Health Logo" width={100} height={32} className="h-8 w-auto" />
             <span className="text-xl font-bold text-blue-800 dark:text-blue-500 hidden sm:block">SPS Health</span>
           </div>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-500 dark:text-slate-400">

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { Activity, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -28,9 +29,8 @@ export default function LoginPage() {
 
       if (res.ok && data.success) {
         toast.success(data.message || 'Bienvenido a SPS Health');
-        // Redirigir al dashboard
-        router.push('/dashboard');
-        router.refresh(); // Forzar actualización de layout con nueva cookie
+        // Usar window.location.href en lugar de router.push() para evitar bugs de caché del App Router en producción
+        window.location.href = '/dashboard';
       } else {
         toast.error(data.error || 'Credenciales inválidas');
       }
@@ -51,7 +51,7 @@ export default function LoginPage() {
       >
         <div className="mb-8 flex flex-col items-center">
           <div className="flex items-center justify-center mb-4">
-            <img src="/sps_logo.svg" alt="SPS Health Logo" class="h-8 w-auto" />
+            <Image src="/SPS_Logo_2025.svg" alt="SPS Health Logo" width={100} height={32} className="h-8 w-auto" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">SPS Health</h1>
           <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">Portal de Historial Médico Digital</p>

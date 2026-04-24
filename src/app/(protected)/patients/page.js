@@ -59,12 +59,21 @@ export default function PatientsListPage() {
       const dataToExport = filteredPatients.map(p => ({
         "Caso": p.caso,
         "Primer Nombre": p.primerNombre,
+        "Segundo Nombre": p.segundoNombre || '',
         "Primer Apellido": p.primerApellido,
-        "DNI": p.dni,
+        "Segundo Apellido": p.segundoApellido || '',
+        "DNI (CI)": p.dni,
+        "Sexo": p.sexo || '',
+        "Edad": p.edad || '',
+        "Fecha Nacimiento": p.fechaNacimiento ? new Date(p.fechaNacimiento).toLocaleDateString('es-ES') : '',
+        "Teléfono 1": p.telefono1 || '',
+        "Teléfono Alternativo": p.telefonoAlternativo || '',
+        "Dirección": p.direccion || '',
+        "Fecha Operación": p.fechaOperacion ? new Date(p.fechaOperacion).toLocaleDateString('es-ES') : '',
         "Descripción": p.descripcion || '',
         "Cantidad Documentos": p._count.documentos,
         "Creado Por": p.creadoPor?.nombre || 'Desconocido',
-        "Fecha Creación": new Date(p.createdAt).toLocaleString('es-ES')
+        "Fecha Creación Registro": new Date(p.createdAt).toLocaleString('es-ES')
       }));
 
       const csv = Papa.unparse(dataToExport);

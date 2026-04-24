@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { 
@@ -23,11 +23,7 @@ export default function PatientDetailPage() {
   const [newName, setNewName] = useState('');
   const [savingName, setSavingName] = useState(false);
 
-  useEffect(() => {
-    fetchPatientData();
-  }, [caso]);
-
-  const fetchPatientData = async () => {
+  const fetchPatientData = useCallback(async () => {
     try {
       setLoading(true);
       const res = await fetch(`/api/patients/${encodeURIComponent(caso)}`);
@@ -44,7 +40,11 @@ export default function PatientDetailPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [caso, router]);
+
+  useEffect(() => {
+    fetchPatientData();
+  }, [fetchPatientData]);
 
   const handleRenameSubmit = async (e) => {
     e.preventDefault();
