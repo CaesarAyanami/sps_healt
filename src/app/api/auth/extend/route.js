@@ -25,8 +25,8 @@ export async function POST(request) {
       name: 'auth_token',
       value: newToken,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: process.env.HTTPS_ENABLED === 'true',
+      sameSite: 'lax',
       maxAge: 600, // 10 minutos
       path: '/',
     });
@@ -35,7 +35,7 @@ export async function POST(request) {
       name: 'user_role',
       value: rol,
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.HTTPS_ENABLED === 'true',
       sameSite: 'strict',
       maxAge: 600,
       path: '/',
@@ -45,7 +45,7 @@ export async function POST(request) {
       name: 'user_id',
       value: id,
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.HTTPS_ENABLED === 'true',
       sameSite: 'strict',
       maxAge: 600,
       path: '/',

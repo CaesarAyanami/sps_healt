@@ -24,7 +24,8 @@ export function middleware(request) {
   // Nota: JWT firma se verifica completamente en las rutas de API
   try {
     const payloadBase64 = token.split('.')[1];
-    const decodedJson = Buffer.from(payloadBase64, 'base64').toString();
+    // Next.js Middleware corre en Edge Runtime, donde Buffer no existe. Usamos atob().
+    const decodedJson = atob(payloadBase64);
     const payload = JSON.parse(decodedJson);
     
     // Proteger /manage-users solo para admin

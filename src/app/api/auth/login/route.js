@@ -62,8 +62,8 @@ export async function POST(request) {
       name: 'auth_token',
       value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: process.env.HTTPS_ENABLED === 'true', // Solo en true si Nginx tiene certificado SSL (https)
+      sameSite: 'lax',
       maxAge: 600, // 10 minutos
       path: '/',
     });
@@ -72,7 +72,7 @@ export async function POST(request) {
       name: 'user_role',
       value: user.rol,
       httpOnly: false, // Accesible por JS en el cliente
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.HTTPS_ENABLED === 'true',
       sameSite: 'strict',
       maxAge: 600, // 10 minutos
       path: '/',
@@ -82,7 +82,7 @@ export async function POST(request) {
       name: 'user_id',
       value: user.id,
       httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.HTTPS_ENABLED === 'true',
       sameSite: 'strict',
       maxAge: 600, // 10 minutos
       path: '/',
