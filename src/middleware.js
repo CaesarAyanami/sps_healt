@@ -6,8 +6,16 @@ export function middleware(request) {
   
   const isLoginPage = url.pathname === '/login' || url.pathname === '/recovery';
   
+  // Rutas públicas que no requieren autenticación
+  const isPublicRoute = 
+    isLoginPage ||
+    url.pathname.startsWith('/api/auth') ||
+    url.pathname.startsWith('/api/recovery') ||
+    url.pathname.startsWith('/api/qr-upload') ||
+    url.pathname.startsWith('/qr-upload');
+
   if (!token) {
-    if (isLoginPage || url.pathname.startsWith('/api/auth') || url.pathname.startsWith('/api/recovery')) {
+    if (isPublicRoute) {
       return NextResponse.next();
     }
     url.pathname = '/login';

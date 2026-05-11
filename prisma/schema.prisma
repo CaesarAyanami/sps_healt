@@ -72,3 +72,12 @@ model RecoveryToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model QrUploadToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  patientId String
+  usado     Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

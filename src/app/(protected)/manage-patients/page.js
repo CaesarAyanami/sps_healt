@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import {
     UserPlus, Search,
-    FileUp, X, Loader2, Trash2, Pencil
+    FileUp, X, Loader2, Trash2, Pencil, QrCode
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import QrUploadModal from '@/components/QrUploadModal';
 
 export default function ManagePatientsPage() {
     const [patients, setPatients] = useState([]);
@@ -26,6 +27,7 @@ export default function ManagePatientsPage() {
         caso: '', primerNombre: '', primerApellido: '', segundoNombre: '', segundoApellido: '', dni: '', sexo: '', edad: '', fechaNacimiento: '', telefono1: '', telefonoAlternativo: '', direccion: '', fechaOperacion: '', descripcion: ''
     });
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [isQrModalOpen, setIsQrModalOpen] = useState(false);
 
     useEffect(() => {
         const getCookieValue = (name) => {
@@ -319,14 +321,27 @@ export default function ManagePatientsPage() {
                                     <textarea rows={2} value={formData.descripcion} onChange={e => setFormData({ ...formData, descripcion: e.target.value })} className="mt-1 w-full px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
                                 </label>
                                 
-                                <div className="block md:col-span-2 mt-4 p-4 border-2 border-dashed border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-900/10 rounded-xl">
-                                  <label className="block text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">Anexar nuevos PDFs (Opcional)</label>
-                                  <input type="file" multiple accept=".pdf" onChange={(e) => setSelectedFiles(Array.from(e.target.files))} className="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 dark:file:bg-blue-900 file:text-blue-700 dark:file:text-blue-300 hover:file:bg-blue-200 dark:hover:file:bg-blue-800" />
-                                  {selectedFiles.length > 0 && (
-                                      <p className="mt-2 text-sm text-blue-600 dark:text-blue-400">
-                                      {selectedFiles.length} archivo(s) listo(s) para añadir.
-                                      </p>
-                                  )}
+                                <div className="block md:col-span-2 mt-4 space-y-3">
+                                  {/* Subida normal */}
+                                  <div className="p-4 border-2 border-dashed border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-900/10 rounded-xl">
+                                    <label className="block text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">Anexar nuevos PDFs (Opcional)</label>
+                                    <input type="file" multiple accept=".pdf" onChange={(e) => setSelectedFiles(Array.from(e.target.files))} className="w-full text-sm text-slate-500 dark:text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-100 dark:file:bg-blue-900 file:text-blue-700 dark:file:text-blue-300 hover:file:bg-blue-200 dark:hover:file:bg-blue-800" />
+                                    {selectedFiles.length > 0 && (
+                                        <p className="mt-2 text-sm text-blue-600 dark:text-blue-400">
+                                        {selectedFiles.length} archivo(s) listo(s) para añadir.
+                                        </p>
+                                    )}
+                                  </div>
+
+                                  {/* Subida por QR */}
+                                  <button
+                                    type="button"
+                                    onClick={() => setIsQrModalOpen(true)}
+                                    className="w-full flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl border-2 border-dashed border-violet-300 dark:border-violet-700 bg-violet-50 dark:bg-violet-900/10 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/20 hover:border-violet-400 dark:hover:border-violet-600 transition-all font-semibold text-sm group"
+                                  >
+                                    <QrCode size={18} className="text-violet-500 group-hover:scale-110 transition-transform" />
+                                    Subir archivo por QR de CamScanner
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -363,6 +378,18 @@ export default function ManagePatientsPage() {
                     </div>
                 )}
             </AnimatePresence>
+
+            {/* QR Upload Modal */}
+            <QrUploadModal
+                isOpen={isQrModalOpen}
+                onClose={() => setIsQrModalOpen(false)}
+                patient={currentPatient}
+                onSuccess={() => {
+                    setIsQrModalOpen(false);
+                    setIsEditModalOpen(false);
+                    fetchPatients();
+                }}
+            />
         </div>
     );
 }

@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
-import { Activity, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function LoginPage() {
@@ -51,7 +50,13 @@ export default function LoginPage() {
       >
         <div className="mb-8 flex flex-col items-center">
           <div className="flex items-center justify-center mb-4">
-            <Image priority src="/SPS_Logo_2025.svg" alt="SPS Health Logo" width={100} height={32} className="h-8 w-auto dark:brightness-0 dark:invert" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/SPS_Logo_2025.svg"
+              alt="SPS Health Logo"
+              className="h-12 w-auto dark:brightness-0 dark:invert"
+              fetchpriority="high"
+            />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">SPS Health</h1>
           <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">Portal de Historial Médico Digital</p>

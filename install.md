@@ -129,6 +129,31 @@ pm2 save
 ```
 *(Tu aplicación NextJS ya está corriendo en el puerto interno `3000` de forma vitalicia).*
 
+### Paso 2.7: ⚠️ CRÍTICO — Persistir la carpeta de uploads entre despliegues
+
+La carpeta `public/uploads/` contiene los PDFs de los pacientes. Si vuelves a copiar el proyecto o haces `git pull`, esta carpeta puede ser sobreescrita o eliminada. Para evitar pérdida de datos:
+
+```bash
+# 1. Crear la carpeta de uploads FUERA del proyecto en una ruta persistente
+mkdir -p /var/sps_uploads
+
+# 2. Dar permisos al usuario que ejecuta la app (ajusta 'ubuntu' a tu usuario)
+sudo chown -R ubuntu:ubuntu /var/sps_uploads
+sudo chmod -R 755 /var/sps_uploads
+
+# 3. Crear un enlace simbólico desde el proyecto a la carpeta persistente
+#    (Ejecutar desde la raíz del proyecto, ej: ~/sps_health)
+rm -rf public/uploads
+ln -s /var/sps_uploads public/uploads
+```
+
+Así los PDFs se guardan en `/var/sps_uploads` y **sobreviven** a cualquier actualización del código. La aplicación los accede desde `public/uploads` como siempre.
+
+> **Nota:** Después de crear el enlace simbólico, reinicia PM2:
+> ```bash
+> pm2 restart sps-app
+> ```
+
 ---
 
 ## 3. Dominio y Proxy Inverso con NGINX

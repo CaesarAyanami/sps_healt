@@ -190,7 +190,7 @@ export default function PatientDetailPage() {
                  </button>
                </div>
                
-               <button onClick={() => window.open(`/${patient.documentos[currentDocIndex].ruta}`, '_blank')} className="flex items-center text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/40 px-4 py-2 rounded-xl transition-colors">
+               <button onClick={() => window.open(`/api/files/${patient.documentos[currentDocIndex].ruta}`, '_blank')} className="flex items-center text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/40 px-4 py-2 rounded-xl transition-colors">
                  <Printer size={18} className="mr-2" /> Ampliar
                </button>
              </div>
@@ -198,7 +198,7 @@ export default function PatientDetailPage() {
           
           <div className="w-full h-[70vh] bg-slate-900">
              <iframe 
-               src={`/${patient.documentos[currentDocIndex].ruta}#view=FitH&toolbar=0`} 
+               src={`/api/files/${patient.documentos[currentDocIndex].ruta}#view=FitH&toolbar=0`} 
                className="w-full h-full border-none"
              />
           </div>
